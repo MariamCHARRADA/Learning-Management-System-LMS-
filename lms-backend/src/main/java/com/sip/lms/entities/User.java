@@ -30,6 +30,17 @@ public class User {
 	@Size(max = 20)
 	private String country;
 	
+	@Column(name = "profilePic")
+	private String profilePic;
+	
+	public String getProfilePic() {
+		return profilePic;
+	}
+
+	public void setProfilePic(String profilePic) {
+		this.profilePic = profilePic;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -78,15 +89,18 @@ public class User {
 		this.country = country;
 	}
 
+
 	public User(@NotBlank @Size(max = 20) String username, @NotBlank @Size(max = 20) String firstname,
 			@NotBlank @Size(max = 20) String lastname, @Email @NotBlank @Size(max = 50) String email,
-			@NotBlank @Size(max = 20) String country) {
+			@NotBlank @Size(max = 20) String country,
+			@NotBlank(message = "Profile picture is mandatory") String profilePic) {
 		super();
 		this.username = username;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.country = country;
+		this.profilePic = profilePic;
 	}
 
 	public User() {
