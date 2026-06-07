@@ -1,5 +1,9 @@
 package com.sip.lms.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
@@ -30,9 +34,43 @@ public class User {
 	@Size(max = 20)
 	private String country;
 	
+	@NotBlank
+    @Size(max = 120)
+    private String password;
+	
 	@Column(name = "profilePic")
 	private String profilePic;
 	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "user_role",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "role_id")
+	)
+    private Set<Role> roles = new HashSet<>(); //must be under ManyToMany
+
+	public String toString() {
+		return "User [username=" + username + ", email=" + email + ", password=" + password
+				+ ", firstname=" + firstname +", lastname=" + lastname + ", country=" + country + ", roles=" + roles + "]";
+		
+	}
+	
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getProfilePic() {
 		return profilePic;
 	}
@@ -92,14 +130,15 @@ public class User {
 
 	public User(@NotBlank @Size(max = 20) String username, @NotBlank @Size(max = 20) String firstname,
 			@NotBlank @Size(max = 20) String lastname, @Email @NotBlank @Size(max = 50) String email,
-			@NotBlank @Size(max = 20) String country,
-			@NotBlank(message = "Profile picture is mandatory") String profilePic) {
+			@NotBlank @Size(max = 20) String country,@NotBlank @Size(max = 120) String password,
+			String profilePic) {
 		super();
 		this.username = username;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.country = country;
+	    this.password = password;
 		this.profilePic = profilePic;
 	}
 

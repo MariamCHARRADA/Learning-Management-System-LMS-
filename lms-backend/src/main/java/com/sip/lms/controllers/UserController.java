@@ -27,23 +27,12 @@ import com.sip.lms.services.UserService;
 @RequestMapping("/users")
 public class UserController {		
 	
-	@Autowired //IOC inversion of control = injecting dependencies
+	@Autowired
 	UserService userService;
 	
 	@GetMapping("/")
 	public ResponseEntity<List<User>> getAllUsers() {
 		return new ResponseEntity<>(this.userService.getAllUsers(), HttpStatus.OK);
-	}
-	
-	@PostMapping("/")	
-	public User create(@RequestParam(name="imageFile") MultipartFile file,
-			@RequestParam("username") String username,
-			@RequestParam("firstname") String firstname,
-			@RequestParam("lastname") String lastname,
-			@RequestParam("email") String email, 
-			@RequestParam("country") String country
-			) throws IOException {
-		return userService.addUser(file, username,firstname,lastname, email, country); //should be in order
 	}
 		
 	@GetMapping("/{id}")
@@ -57,8 +46,8 @@ public class UserController {
 			return new ResponseEntity<>(opt.get(), HttpStatus.OK); 
 	}
 	
-	@DeleteMapping("/{id}") // id is a variable
-	public ResponseEntity<User> deleteUserById(@PathVariable long id) { // id is retrieved from the path URL
+	@DeleteMapping("/{id}")
+	public ResponseEntity<User> deleteUserById(@PathVariable long id) {
 	
 		Optional<User> opt = this.userService.getUserById(id);
 	
@@ -76,12 +65,24 @@ public class UserController {
 			@RequestParam("username") String username,
 			@RequestParam("firstname") String firstname,
 			@RequestParam("lastname") String lastname,
-			@RequestParam("email") String email, 
+			@RequestParam("email") String email,
+			@RequestParam("password") String password, 
 			@RequestParam("country") String country
 			) throws IOException {
 		
-		return userService.updateUser(file,username,firstname,lastname, email, country,id);
+		return userService.updateUser(file,username,firstname,lastname, email, country, password,id);
 	}
-
+	
+	/*@PostMapping("/")	
+	public User create(@RequestParam(name="imageFile") MultipartFile file,
+			@RequestParam("username") String username,
+			@RequestParam("firstname") String firstname,
+			@RequestParam("lastname") String lastname,
+			@RequestParam("email") String email,
+			@RequestParam("password") String password, 
+			@RequestParam("country") String country
+			) throws IOException {
+		return userService.addUser(file, username,firstname,lastname, email, country, password); //should be in order
+	}*/
 
 }
