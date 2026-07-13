@@ -2,10 +2,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
 import { filter } from 'rxjs';
+import { provideHttpClient } from '@angular/common/http';
+import { Navbar } from './shared/navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Navbar],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
